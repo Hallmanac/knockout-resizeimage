@@ -1,4 +1,4 @@
-﻿/************************************* 
+/************************************* 
 * Use this binding to resize images to a maxWidth or maxHeight (or both).
 * Either pass in the maxWidth & maxHeight parameters via an inline object on the binding itself.
 *
@@ -26,13 +26,16 @@
     ko.bindingHandlers.resizeImage = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
             var img = new Image();
-            var options = valueAccessor() || {};
+            var options = ko.utils.unwrapObservable(valueAccessor());
             if (!options.maxWidth && !options.maxHeight) {
                 options = { maxWidth: allBindingsAccessor().maxWidth, maxHeight: allBindingsAccessor().maxHeight };
             }
-            if (options.maxWidth || options.maxHeight) {
-                var currentMaxWidth = (options.maxWidth) ? options.maxWidth : 0;
-                var currentMaxHeight = (options.maxHeight) ? options.maxHeight : 0;
+            var mw = ko.utils.unwrapObservable(options.maxWidth);
+            var mh = ko.utils.unwrapObservable(options.maxHeight);
+
+            if (mw || mh) {
+                var currentMaxWidth = (mw) ? mw : 0;
+                var currentMaxHeight = (mh) ? mh : 0;
 
                 $(element).load(
                     function () {
@@ -48,13 +51,17 @@
 
         update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
             var img = new Image();
-            var options = valueAccessor() || {};
+            var options = ko.utils.unwrapObservable(valueAccessor());
             if (!options.maxWidth && !options.maxHeight) {
                 options = { maxWidth: allBindingsAccessor().maxWidth, maxHeight: allBindingsAccessor().maxHeight };
             }
-            if (options.maxWidth || options.maxHeight) {
-                var currentMaxWidth = (options.maxWidth) ? options.maxWidth : 0;
-                var currentMaxHeight = (options.maxHeight) ? options.maxHeight : 0;
+            
+            var mw = ko.utils.unwrapObservable(options.maxWidth);
+            var mh = ko.utils.unwrapObservable(options.maxHeight);
+            
+            if (mw || mh) {
+                var currentMaxWidth = (mw) ? mw : 0;
+                var currentMaxHeight = (mh) ? mh : 0;
 
                 $(element).load(
                     function () {
